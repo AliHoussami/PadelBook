@@ -4,7 +4,6 @@ using Padel_Court_Booking.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 
-
 namespace Padel_Court_Booking.Controllers
 {
     public class BookingController : Controller
@@ -38,10 +37,15 @@ namespace Padel_Court_Booking.Controllers
             }
 
             // Check availability
-            var bookedCourts = await _context.Bookings.CountAsync(b => b.CourtId == courtId && b.BookingDate == date);
+            var bookedCourts = await _context.Bookings.CountAsync(b =>
+                b.CourtId == courtId &&
+                b.BookingDate.Date == date.Date &&
+                b.StartTime < endTime &&
+                b.EndTime > startTime);
+
             if (bookedCourts >= 5)  // Assuming a total of 5 courts
             {
-                ViewBag.Error = "No courts available for the selected date.";
+                ViewBag.Error = "No courts available for the selected date and time.";
                 return RedirectToAction("Book", new { courtId });
             }
 
@@ -59,6 +63,7 @@ namespace Padel_Court_Booking.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("MyBookings");
         }
+
         [HttpGet]
         public async Task<IActionResult> Book(int courtId)
         {
@@ -70,7 +75,9 @@ namespace Padel_Court_Booking.Controllers
 
             // Simulated available courts logic (can be updated with real business logic)
             var totalCourts = 5;  // Example: Assume 5 courts available
-            var bookedCourts = await _context.Bookings.CountAsync(b => b.CourtId == courtId);
+            var bookedCourts = await _context.Bookings
+                .Where(b => b.CourtId == courtId && b.BookingDate.Date == DateTime.Today)
+                .CountAsync();
             int availableCourts = totalCourts - bookedCourts;
 
             var model = new Booking
@@ -83,12 +90,18 @@ namespace Padel_Court_Booking.Controllers
             ViewBag.AvailableCourts = availableCourts;
             return View(model);
         }
+
         public async Task<IActionResult> MyBookings()
         {
             var userId = int.Parse(HttpContext.Session.GetString("UserId"));
-            var bookings = await _context.Bookings.Where(b => b.UserId == userId).ToListAsync();
+            var bookings = await _context.Bookings
+                .Include(b => b.Court)  // Include the Court navigation property
+                .Where(b => b.UserId == userId)
+                .OrderByDescending(b => b.BookingDate)
+                .ThenBy(b => b.StartTime)
+                .ToListAsync();
+
             return View(bookings);
         }
     }
-
 }

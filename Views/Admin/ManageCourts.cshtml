@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Padel_Court_Booking.Models.Court>
+
+<div class="main-container">
+    <h2 class="text-center mb-4">Manage Courts</h2>
+    <form method="post" asp-action="AddCourt">
+        <div class="input-group mb-3">
+            <input type="text" name="Name" class="form-control" placeholder="Court Name" required>
+            <input type="text" name="Location" class="form-control" placeholder="Location" required>
+            <button class="btn btn-primary" type="submit">Add Court</button>
+        </div>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var court in Model)
+            {
+                <tr>
+                    <td>@court.Id</td>
+                    <td>@court.Name</td>
+                    <td>@court.Location</td>
+                    <td>
+                        <form method="post" asp-action="DeleteCourt">
+                            <input type="hidden" name="courtId" value="@court.Id" />
+                            <button class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

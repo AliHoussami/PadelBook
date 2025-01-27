@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Padel_Court_Booking.Models.Booking>
+
+<div class="main-container">
+    <h2 class="text-center mb-4">Manage Bookings</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>User</th>
+                <th>Court</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.Id</td>
+                    <td>@booking.User.FullName</td>
+                    <td>@booking.Court.Name</td>
+                    <td>@booking.BookingDate.ToString("yyyy-MM-dd")</td>
+                    <td>@booking.Status</td>
+                    <td>
+                        <form method="post" asp-action="DeleteBooking">
+                            <input type="hidden" name="bookingId" value="@booking.Id" />
+                            <button class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

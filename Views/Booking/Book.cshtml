@@ -158,31 +158,10 @@
         }
     </style>
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <i class="fas fa-table-tennis pe-2"></i>Padel Booking
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Account/Login?returnUrl=/Booking/Book?courtId=@Model.CourtId">
-                            <i class="fas fa-sign-in-alt pe-1"></i>Login
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Account/Register">
-                            <i class="fas fa-user-plus pe-1"></i>Sign Up
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<body>   
+    @{
+        ViewData["Title"] = "Book a Court | Padel Booking";
+    }
 
     <div class="container main-container">
         <h2 class="text-center page-title">Book a Court</h2>
@@ -247,13 +226,6 @@
             </form>
         }
     </div>
-
-    <footer>
-        <div class="container text-center">
-            <p class="mb-0">&copy; 2024 Padel Court Booking. All rights reserved.</p>
-        </div>
-    </footer>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
