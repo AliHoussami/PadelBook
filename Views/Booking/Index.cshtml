@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Courts</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Available Padel Courts</h2>
+        <div class="row">
+            @foreach (var court in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="card shadow-lg mb-4 border-0">
+                        <img src="/images/padel-court.jpg" class="card-img-top" alt="@court.Name">
+                        <div class="card-body text-center">
+                            <h5 class="card-title fw-bold">@court.Name</h5>
+                            <p class="card-text"><i class="bi bi-geo-alt-fill"></i> @court.Location</p>
+                            <p class="card-text text-success fw-bold">Price: $@court.PricePerHour / hour</p>
+                            <a href="@Url.Action("Book", "Booking", new { courtId = court.Id })" class="btn btn-primary w-100">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Padel_Court_Booking.props" />
+</Project>
