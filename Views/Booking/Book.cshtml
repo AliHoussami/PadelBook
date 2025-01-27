@@ -3,74 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book a Court</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <title>Book a Court | Padel Booking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+            .nav-link:hover {
+                color: var(--secondary-color) !important;
+            }
+
+        .main-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex: 1;
+        }
+
+        .page-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+            .page-title::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 50px;
+                height: 3px;
+                background-color: var(--secondary-color);
+            }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.75rem;
+            transition: border-color 0.3s ease;
+        }
+
+            .form-control:focus {
+                border-color: var(--secondary-color);
+                box-shadow: none;
+            }
+
+            .form-control[readonly] {
+                background-color: #f8f9fa;
+            }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+            .btn-primary:hover {
+                background-color: #2980b9;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+
+        .alert {
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 1rem 0;
+            margin-top: auto;
+        }
+
+        .time-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+            .time-group .mb-3 {
+                flex: 1;
+            }
+
+        .booking-info {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .booking-info-title {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 0.25rem;
+        }
+
+        .booking-info-value {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">Padel Booking</a>
-            <div class="collapse navbar-collapse">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-table-tennis pe-2"></i>Padel Booking
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/Account/Login?returnUrl=/Booking/Book?courtId=@Model.CourtId">Login</a>
+                        <a class="nav-link" href="/Account/Login?returnUrl=/Booking/Book?courtId=@Model.CourtId">
+                            <i class="fas fa-sign-in-alt pe-1"></i>Login
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Account/Register">Sign Up</a>
+                        <a class="nav-link" href="/Account/Register">
+                            <i class="fas fa-user-plus pe-1"></i>Sign Up
+                        </a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Book a Court</h2>
+
+    <div class="container main-container">
+        <h2 class="text-center page-title">Book a Court</h2>
 
         @if (ViewBag.Error != null)
         {
-            <div class="alert alert-danger text-center">@ViewBag.Error</div>
+            <div class="alert alert-danger text-center">
+                <i class="fas fa-exclamation-circle pe-2"></i>@ViewBag.Error
+            </div>
         }
 
         @if (Context.Session.GetString("UserId") == null)
         {
-            <div class="alert alert-warning text-center">Please <a href="/Account/Login?returnUrl=/Booking/Book?courtId=@Model.CourtId">login</a> to book a court.</div>
+            <div class="alert alert-warning text-center">
+                <i class="fas fa-info-circle pe-2"></i>Please <a href="/Account/Login?returnUrl=/Booking/Book?courtId=@Model.CourtId" class="alert-link">login</a> to book a court.
+            </div>
         }
         else
         {
-            <form method="post" action="/Booking/Book" class="shadow-lg p-4 bg-light rounded">
+            <form method="post" action="/Booking/Book">
                 <input type="hidden" name="courtId" value="@Model.CourtId" />
 
-                <div class="mb-3">
-                    <label class="form-label">Court Name:</label>
-                    <input type="text" name="courtName" value="@Model.Court.Name" readonly class="form-control" />
+                <div class="booking-info">
+                    <div class="mb-3">
+                        <div class="booking-info-title">Court Name</div>
+                        <div class="booking-info-value">@Model.Court.Name</div>
+                    </div>
+                    <div class="mb-3 mb-0">
+                        <div class="booking-info-title">Available Courts</div>
+                        <div class="booking-info-value">@ViewBag.AvailableCourts</div>
+                    </div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Available Courts:</label>
-                    <input type="number" name="availableCourts" value="@ViewBag.AvailableCourts" readonly class="form-control" />
+                    <label class="form-label">
+                        <i class="far fa-calendar pe-2"></i>Date
+                    </label>
+                    <input type="date" name="date" required class="form-control"
+                           value="@DateTime.Now.ToString("yyyy-MM-dd")"
+                           min="@DateTime.Now.ToString("yyyy-MM-dd")" />
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Date:</label>
-                    <input type="date" name="date" required class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                <div class="time-group">
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="far fa-clock pe-2"></i>Start Time
+                        </label>
+                        <input type="time" name="startTime" required class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="far fa-clock pe-2"></i>End Time
+                        </label>
+                        <input type="time" name="endTime" required class="form-control" />
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Start Time:</label>
-                    <input type="time" name="startTime" required class="form-control" />
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">End Time:</label>
-                    <input type="time" name="endTime" required class="form-control" />
-                </div>
-
-                <button type="submit" class="btn btn-primary w-100">Confirm Booking</button>
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-check-circle pe-2"></i>Confirm Booking
+                </button>
             </form>
         }
     </div>
 
-    <footer class="bg-dark text-light text-center py-3 mt-5">
-        <p>&copy; 2024 Padel Court Booking. All rights reserved.</p>
+    <footer>
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 Padel Court Booking. All rights reserved.</p>
+        </div>
     </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -3,24 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Register - Padel Booking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+
+        .main-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex: 1;
+        }
+
+        .page-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.75rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            border-radius: 8px;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 1rem 0;
+            margin-top: auto;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h2>Register</h2>
-    <form method="post">
-        <div class="mb-3">
-            <label>Full Name:</label>
-            <input type="text" name="FullName" required class="form-control" />
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-table-tennis pe-2"></i>Padel Booking
+            </a>
         </div>
-        <div class="mb-3">
-            <label>Email:</label>
-            <input type="email" name="Email" required class="form-control" />
-        </div>
-        <div class="mb-3">
-            <label>Password:</label>
-            <input type="password" name="Password" required class="form-control" />
-        </div>
-        <button type="submit" class="btn btn-primary">Register</button>
-    </form>
+    </nav>
+
+    <div class="container main-container">
+        <h2 class="page-title"><i class="fas fa-user-plus pe-2"></i>Create Account</h2>
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Full Name</label>
+                <input type="text" name="FullName" required class="form-control" placeholder="Enter your full name" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="Email" required class="form-control" placeholder="Enter your email" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="Password" required class="form-control" placeholder="Choose a password" />
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus pe-2"></i>Create Account</button>
+        </form>
+        <div class="auth-links">Already have an account? <a href="/Account/Login">Sign in</a></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Padel Court Booking. All rights reserved.</p>
+    </footer>
 </body>
 </html>

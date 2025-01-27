@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Padel_Court_Booking")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2c41212624063c1d8b3dacda88cd189b29c79a16")]
 [assembly: System.Reflection.AssemblyProductAttribute("Padel_Court_Booking")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Padel_Court_Booking")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
