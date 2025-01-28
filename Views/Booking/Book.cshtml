@@ -156,9 +156,38 @@
             font-weight: 500;
             color: var(--primary-color);
         }
+
+        .auth-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+            .auth-options button {
+                flex: 1;
+                padding: 0.5rem;
+                border: none;
+                background: none;
+                border-bottom: 2px solid #e9ecef;
+                font-weight: 500;
+                color: #6c757d;
+                transition: all 0.3s ease;
+            }
+
+                .auth-options button.active {
+                    color: var(--secondary-color);
+                    border-bottom-color: var(--secondary-color);
+                }
+
+        .signup-form {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
     </style>
 </head>
-<body>   
+<body>
     @{
         ViewData["Title"] = "Book a Court | Padel Booking";
     }
@@ -175,8 +204,51 @@
 
         @if (Context.Session.GetString("UserId") == null)
         {
-            <div class="alert alert-warning text-center">
-                <i class="fas fa-info-circle pe-2"></i>Please <a href="/Account/Login?returnUrl=/Booking/Book?courtId=@Model.CourtId" class="alert-link">login</a> to book a court.
+            <div class="auth-options">
+                <button class="active" onclick="showLogin()">Login</button>
+                <button onclick="showSignup()">Sign Up</button>
+            </div>
+
+            <div id="loginForm">
+                <div class="alert alert-warning text-center">
+                    <i class="fas fa-info-circle pe-2"></i>Please <a href="/Account/Login?returnUrl=/Booking/Book?courtId=@Model.CourtId" class="alert-link">login</a> to book a court.
+                </div>
+            </div>
+
+            <div id="signupForm" class="signup-form" style="display: none;">
+                <form method="post" action="/Account/Register">
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="far fa-user pe-2"></i>Full Name
+                        </label>
+                        <input type="text" name="fullName" required class="form-control" placeholder="Enter your full name" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="far fa-envelope pe-2"></i>Email Address
+                        </label>
+                        <input type="email" name="email" required class="form-control" placeholder="Enter your email" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-lock pe-2"></i>Password
+                        </label>
+                        <input type="password" name="password" required class="form-control" placeholder="Create a password" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-lock pe-2"></i>Confirm Password
+                        </label>
+                        <input type="password" name="confirmPassword" required class="form-control" placeholder="Confirm your password" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-user-plus pe-2"></i>Sign Up
+                    </button>
+                </form>
             </div>
         }
         else
@@ -227,5 +299,20 @@
         }
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showLogin() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'none';
+            document.querySelector('.auth-options button:first-child').classList.add('active');
+            document.querySelector('.auth-options button:last-child').classList.remove('active');
+        }
+
+        function showSignup() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'block';
+            document.querySelector('.auth-options button:first-child').classList.remove('active');
+            document.querySelector('.auth-options button:last-child').classList.add('active');
+        }
+    </script>
 </body>
 </html>

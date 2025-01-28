@@ -103,5 +103,111 @@ namespace Padel_Court_Booking.Controllers
 
             return View(bookings);
         }
+        [HttpPost]
+        public async Task<IActionResult> CancelBooking(int id)
+        {
+            var userId = int.Parse(HttpContext.Session.GetString("UserId"));
+            var booking = await _context.Bookings
+                .FirstOrDefaultAsync(b => b.Id == id && b.UserId == userId);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            // Only allow cancellation if booking is in the future
+            if (booking.BookingDate.Date < DateTime.Today ||
+                (booking.BookingDate.Date == DateTime.Today && booking.StartTime <= DateTime.Now.TimeOfDay))
+            {
+                return BadRequest("Cannot cancel past bookings");
+            }
+
+            booking.Status = "Cancelled";
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(MyBookings));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var userId = int.Parse(HttpContext.Session.GetString("UserId"));
+            var booking = await _context.Bookings
+                .Include(b => b.Court)
+                .FirstOrDefaultAsync(b => b.Id == id && b.UserId == userId);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            // Only allow editing future bookings
+            if (booking.BookingDate.Date < DateTime.Today ||
+                (booking.BookingDate.Date == DateTime.Today && booking.StartTime <= DateTime.Now.TimeOfDay))
+            {
+                return BadRequest("Cannot edit past bookings");
+            }
+
+            return View(booking);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, DateTime newDate, TimeSpan newStartTime, TimeSpan newEndTime)
+        {
+            var userId = int.Parse(HttpContext.Session.GetString("UserId"));
+            var booking = await _context.Bookings
+                .FirstOrDefaultAsync(b => b.Id == id && b.UserId == userId);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            if (newStartTime >= newEndTime)
+            {
+                ModelState.AddModelError("", "Start time must be before end time");
+                return View(booking);
+            }
+
+            // Check availability for new time slot
+            var conflictingBookings = await _context.Bookings
+                .Where(b => b.Id != id &&
+                            b.CourtId == booking.CourtId &&
+                            b.BookingDate.Date == newDate.Date &&
+                            b.StartTime < newEndTime &&
+                            b.EndTime > newStartTime)
+                .CountAsync();
+
+            if (conflictingBookings >= 5)
+            {
+                ModelState.AddModelError("", "Selected time slot is not available");
+                return View(booking);
+            }
+
+            booking.BookingDate = newDate;
+            booking.StartTime = newStartTime;
+            booking.EndTime = newEndTime;
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(MyBookings));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var userId = int.Parse(HttpContext.Session.GetString("UserId"));
+            var booking = await _context.Bookings
+                .FirstOrDefaultAsync(b => b.Id == id && b.UserId == userId);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            _context.Bookings.Remove(booking);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(MyBookings));
+        }
     }
 }

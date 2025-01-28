@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Booking</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="card-title mb-0 text-primary">
+                                <i class="fas fa-edit me-2"></i>Edit Booking
+                            </h2>
+                            <a href="@Url.Action("MyBookings")" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Bookings
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach (var modelError in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                    {
+                                        <li>@modelError.ErrorMessage</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+
+                        <form method="post" action="@Url.Action("Edit", new { id = Model.Id })" id="editBookingForm">
+                            <div class="mb-4">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <i class="fas fa-table-tennis fa-2x text-primary"></i>
+                                    </div>
+                                    <div class="col">
+                                        <h5 class="mb-0">@Model.Court.Name</h5>
+                                        <small class="text-muted">Court Details</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="newDate" class="form-label">Booking Date</label>
+                                <input type="date"
+                                       class="form-control"
+                                       id="newDate"
+                                       name="newDate"
+                                       value="@Model.BookingDate.ToString("yyyy-MM-dd")"
+                                       min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                       required>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="newStartTime" class="form-label">Start Time</label>
+                                    <input type="time"
+                                           class="form-control"
+                                           id="newStartTime"
+                                           name="newStartTime"
+                                           value="@Model.StartTime.ToString(@"hh\:mm")"
+                                           required>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="newEndTime" class="form-label">End Time</label>
+                                    <input type="time"
+                                           class="form-control"
+                                           id="newEndTime"
+                                           name="newEndTime"
+                                           value="@Model.EndTime.ToString(@"hh\:mm")"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Please note that changes are subject to court availability.
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                                <a href="@Url.Action("MyBookings")" class="btn btn-light me-md-2">Cancel</a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i>Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('editBookingForm').addEventListener('submit', function (e) {
+            const startTime = document.getElementById('newStartTime').value;
+            const endTime = document.getElementById('newEndTime').value;
+
+            if (startTime >= endTime) {
+                e.preventDefault();
+                alert('Start time must be before end time.');
+                return false;
+            }
+
+            const bookingDate = new Date(document.getElementById('newDate').value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            if (bookingDate < today) {
+                e.preventDefault();
+                alert('Cannot book for past dates.');
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>
